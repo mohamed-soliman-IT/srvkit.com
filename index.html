@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ServiceKit - Software Development</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        #container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: clamp(20px, 3vw, 24px);
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+        }
+
+        .logo span {
+            color: #ff0000;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .messages-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #00ffff, #0088ff);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .messages-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 255, 255, 0.4);
+        }
+
+        #contact-btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #00ffff, #0088ff);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+        }
+        
+        #contact-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 255, 255, 0.4);
+        }
+
+        #scene-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            background: #000;
+        }
+
+        .title {
+            position: fixed;
+            bottom: clamp(60px, 12vh, 150px);
+            left: clamp(15px, 3vw, 50px);
+            font-size: clamp(24px, 5vw, 72px);
+            font-weight: bold;
+            opacity: 0.9;
+            z-index: 2;
+            text-transform: uppercase;
+            letter-spacing: clamp(1px, 0.2vw, 2px);
+            line-height: 1.2;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            transition: all 0.3s ease;
+            max-width: 90vw;
+            word-wrap: break-word;
+            hyphens: auto;
+        }
+
+        .subtitle {
+            position: fixed;
+            bottom: clamp(15px, 3vh, 50px);
+            left: clamp(15px, 3vw, 50px);
+            font-size: clamp(14px, 2.5vw, 24px);
+            opacity: 0.7;
+            z-index: 2;
+            max-width: 90vw;
+            line-height: 1.5;
+            letter-spacing: clamp(0.5px, 0.1vw, 1px);
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            word-wrap: break-word;
+            hyphens: auto;
+        }
+
+        @media (max-width: 1200px) {
+            .title {
+                font-size: clamp(22px, 4vw, 60px);
+            }
+            
+            .subtitle {
+                font-size: clamp(13px, 2vw, 20px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                bottom: clamp(50px, 10vh, 100px);
+                font-size: clamp(20px, 3.5vw, 48px);
+            }
+            
+            .subtitle {
+                bottom: clamp(12px, 2.5vh, 30px);
+                font-size: clamp(12px, 1.8vw, 18px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                bottom: clamp(40px, 8vh, 80px);
+                font-size: clamp(18px, 3vw, 36px);
+            }
+            
+            .subtitle {
+                bottom: clamp(10px, 2vh, 25px);
+                font-size: clamp(11px, 1.5vw, 16px);
+            }
+        }
+
+        canvas {
+            display: block;
+        }
+
+        /* Modal Styles */
+        #contact-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        #contact-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+        
+        .modal-content {
+            position: relative;
+            width: 90%;
+            max-width: 800px;
+            margin: auto;
+            background: rgba(15, 15, 20, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+            display: flex;
+            gap: 30px;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 30px;
+            height: 30px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        
+        .modal-close:hover {
+            opacity: 1;
+        }
+        
+        #modal-3d-container {
+            flex: 1;
+            min-height: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .contact-form-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .contact-form-container h2 {
+            color: white;
+            margin: 0;
+            font-size: 24px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .form-group label {
+            color: white;
+            font-size: 14px;
+            padding-top: 10px;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            margin-top: 1.5%;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #00ffff;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .submit-btn {
+            margin-top: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, #00ffff, #0088ff);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .modal-content {
+                flex-direction: column;
+                padding: 20px;
+            }
+            
+            #modal-3d-container {
+                min-height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <header>
+            <div class="logo">Service<span>Kit</span></div>
+            <div class="header-buttons">
+                <!-- <a href="messages.html" class="messages-btn">Messages</a> -->
+                <button id="contact-btn">Contact Us</button>
+            </div>
+        </header>
+        
+        <div id="scene-container"></div>
+        
+        <h1 class="title">SOFTWARE DEVELOPMENT</h1>
+        <div class="subtitle">The First Message From ServiceKit to<br>The World: "WE ARE COMING SOON"</div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div id="contact-modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div id="modal-3d-container"></div>
+            <div class="contact-form-container">
+                <h2>Get in Touch</h2>
+                <form id="contact-form">
+                    <div class="form-group">
+                        <!-- <label for="name">Name</label> -->
+                        <input type="text" placeholder="Name" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <!-- <label for="email">Email</label> -->
+                        <input type="email" placeholder="Email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <!-- <label for="message">Message</label> -->
+                        <textarea id="message" placeholder="Message" name="message" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r132/three.min.js"></script>
+    <!-- Load our script -->
+    <script src="script.js"></script>
+</body>
+</html>

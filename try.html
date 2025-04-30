@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ServiceKit</title>
+
+    <style>
+        body {
+            background-color: black;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+
+        .main {
+            position: relative;
+            align-items: center;
+            max-height: 100vh;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .main spline-viewer {
+            z-index: 555;
+            width: 100%;
+            height: 100%;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: absolute;
+            width: 100%;
+            z-index: 999999999999999999999999999;
+
+        }
+
+
+        .header .logo h1 {
+            font-weight: 900;
+            font-size: 2.5rem;
+            color: white;
+            padding-left: 35%;
+        }
+
+        .header .contact {
+            padding-right: 1%;
+        }
+
+        .header .contact button {
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: none;
+            color: black;
+            cursor: pointer;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-weight: 900;
+            transition: all ease-in-out 0.5s;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .header .logo .kit {
+            color: rgb(250, 17, 0);
+        }
+
+        .content {
+            position: absolute;
+            width: 100%;
+            top: 15%;
+            left: 50%;
+            transform: translate(-50%, 20%);
+            color: white;
+            z-index: -5;
+
+        }
+
+        .layer {
+            width: 150px;
+            height: 50px;
+            background-color: black;
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            z-index: 99;
+        }
+
+        .content h1 {
+            font-size: 9rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            text-align: center;
+            letter-spacing: 5px;
+        }
+
+        .arrow {
+            position: absolute;
+            right: 50px;
+            bottom: 120px;
+            z-index: 9999999999999999999999999;
+            height: 100px;
+            width: 25px;
+            border: 3px solid rgb(175, 175, 175);
+            border-radius: 25px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .arrow span {
+            color: wheat;
+            text-align: center;
+            animation: fadeDown 1.5s infinite ease-in-out;
+        }
+
+        .arrow span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .arrow span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+
+        @keyframes fadeDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateY(10px);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+        }
+
+
+        .message {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.423);
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            width: 28%;
+            left: 0;
+            bottom: 40px;
+            z-index: 9999999999999999999999999;
+            padding-left: 2%;
+            text-align: center;
+        }
+
+
+        @media screen and (max-width:768px) {
+            .main spline-viewer {
+                z-index: 555;
+                width: 100%;
+                height: 100vh;
+            }
+
+            .header .logo h1 {
+                font-weight: 600;
+                font-size: 1.5rem;
+                padding-left: 5%;
+
+            }
+
+            .header .contact {
+                padding-right: 1%;
+            }
+
+            .header .contact button {
+                padding: 10px 20px;
+                border-radius: 25px;
+                font-weight: 600;
+                font-size: 0.9rem;
+                cursor: pointer;
+            }
+
+            .content h1 {
+                font-size: 2.6rem;
+                font-weight: 900;
+                text-transform: uppercase;
+                font-family: Georgia, 'Times New Roman', Times, serif;
+                text-align: center;
+                letter-spacing: 5px;
+            }
+
+            .message {
+                position: absolute;
+                color: rgba(255, 255, 255, 0.423);
+                font-family: Georgia, 'Times New Roman', Times, serif;
+                width: 100%;
+                left: 0;
+                bottom: 50px;
+                z-index: 9999999999999999999999999;
+                padding-left: 0;
+                text-align: start;
+            }
+        }
+
+        .arrow {
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            z-index: 9999999999999999999999999;
+            height: 70px;
+            width: 20px;
+            border: 3px solid rgb(175, 175, 175);
+            border-radius: 25px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+    <div class="main">
+
+        <div class="header">
+            <div class="logo">
+                <h1>Service<span class="kit">Kit</span> </h1>
+            </div>
+
+            <div class="contact">
+                <button
+                    onclick="window.location.href='https://chatgpt.com/c/67daa700-1bec-8010-a395-6be26f1ec287'">Contact
+                    Us</button>
+            </div>
+
+        </div>
+
+
+        <!-- <spline-viewer url="https://prod.spline.design/8BJUbo2c6lHy-tFw/scene.splinecode"></spline-viewer> -->
+
+<spline-viewer url="https://prod.spline.design/vsrP5V9pTEJF6up7/scene.splinecode"></spline-viewer>
+        <div class="layer">
+
+        </div>
+        <div class="content">
+            <h1>Software Development</h1>
+        </div>
+
+        <div class="arrow">
+            <span>⌄</span>
+            <span>⌄</span>
+            <span>⌄</span>
+        </div>
+
+        <div class="message">
+            <h1>The First Message From ServiceKit to The World: "WE ARE COMING SOON"</h1>
+
+        </div>
+
+    </div>
+
+
+
+
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.79/build/spline-viewer.js"></script>
+
+</body>
+
+</html>

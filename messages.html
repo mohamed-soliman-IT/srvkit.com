@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ServiceKit - Contact Messages</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+        }
+
+        header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: clamp(20px, 3vw, 24px);
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+        }
+
+        .logo span {
+            color: #ff0000;
+        }
+
+        .back-btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #00ffff, #0088ff);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 255, 255, 0.4);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .title {
+            font-size: clamp(24px, 5vw, 36px);
+            margin-bottom: 30px;
+            text-align: center;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+
+        .messages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .message-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 255, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .message-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 255, 255, 0.2);
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .message-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #00ffff;
+            word-break: break-word;
+        }
+
+        .message-date {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            white-space: nowrap;
+        }
+
+        .message-email {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 15px;
+            font-size: 14px;
+            word-break: break-all;
+        }
+
+        .message-content {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            font-size: 15px;
+            white-space: pre-wrap;
+            word-break: break-word;
+            max-height: 200px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .message-content::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .message-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+        }
+
+        .message-content::-webkit-scrollbar-thumb {
+            background: rgba(0, 255, 255, 0.3);
+            border-radius: 5px;
+        }
+
+        .message-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 255, 255, 0.5);
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: #ff4444;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .delete-btn:hover {
+            background: rgba(255, 68, 68, 0.1);
+        }
+
+        .no-messages {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 18px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .messages-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Service<span>Kit</span></div>
+        <a href="index.html" class="back-btn">Back to Home</a>
+    </header>
+
+    <div class="container">
+        <h1 class="title">Contact Messages</h1>
+        <div id="messages-container" class="messages-grid">
+            <!-- Messages will be inserted here -->
+        </div>
+    </div>
+
+    <script>
+        // Function to format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // Function to create message card
+        function createMessageCard(message) {
+            return `
+                <div class="message-card" data-timestamp="${message.timestamp}">
+                    <div class="message-header">
+                        <div class="message-name">${message.name}</div>
+                        <div class="message-date">${formatDate(message.timestamp)}</div>
+                    </div>
+                    <div class="message-email">${message.email}</div>
+                    <div class="message-content">${message.message}</div>
+                    <button class="delete-btn" onclick="deleteMessage('${message.timestamp}')">Delete</button>
+                </div>
+            `;
+        }
+
+        // Function to load messages
+        function loadMessages() {
+            const messages = JSON.parse(localStorage.getItem('contactMessages') || '[]');
+            const container = document.getElementById('messages-container');
+            
+            if (messages.length === 0) {
+                container.innerHTML = '<div class="no-messages">No messages yet. Be the first to contact us!</div>';
+                return;
+            }
+
+            // Sort messages by timestamp (newest first)
+            messages.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            
+            container.innerHTML = messages.map(createMessageCard).join('');
+        }
+
+        // Function to delete message
+        function deleteMessage(timestamp) {
+            if (confirm('Are you sure you want to delete this message?')) {
+                let messages = JSON.parse(localStorage.getItem('contactMessages') || '[]');
+                messages = messages.filter(msg => msg.timestamp !== timestamp);
+                localStorage.setItem('contactMessages', JSON.stringify(messages));
+                loadMessages();
+            }
+        }
+
+        // Load messages when page loads
+        window.addEventListener('load', loadMessages);
+    </script>
+</body>
+</html> 
