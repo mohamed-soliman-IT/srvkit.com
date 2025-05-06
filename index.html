@@ -14,7 +14,7 @@
         body {
             background: #000;
             color: #fff;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             overflow: hidden;
         }
 
@@ -34,69 +34,76 @@
             justify-content: space-between;
             align-items: center;
             z-index: 2;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(0, 255, 255, 0.1);
         }
 
         .logo {
-            font-size: clamp(20px, 3vw, 24px);
-            font-weight: bold;
+            font-size: clamp(24px, 3.5vw, 32px);
+            font-weight: 800;
             color: #fff;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
             display: flex;
             align-items: center;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            text-shadow: 0 0 30px rgba(0, 255, 255, 0.9);
+            transform: scale(1.05);
         }
 
         .logo span {
-            color: #ff0000;
+            color: #ff3366;
+            margin-left: 2px;
+            text-shadow: 0 0 20px rgba(255, 51, 102, 0.7);
         }
 
         .header-buttons {
             display: flex;
-            gap: 15px;
+            gap: 20px;
             align-items: center;
-        }
-
-        .messages-btn {
-            padding: 10px 20px;
-            background: linear-gradient(135deg, #00ffff, #0088ff);
-            color: white;
-            border: none;
-            border-radius: 25px;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
-            transition: transform 0.3s, box-shadow 0.3s;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
-        
-        .messages-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 255, 255, 0.4);
         }
 
         #contact-btn {
-            padding: 12px 25px;
+            padding: 10px 25px;
             background: linear-gradient(135deg, #00ffff, #0088ff);
             color: white;
             border: none;
-            border-radius: 25px;
+            border-radius: 30px;
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
-            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 20px rgba(0, 255, 255, 0.4);
+            transition: all 0.3s ease;
             z-index: 100;
             display: flex;
             align-items: center;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #contact-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
         }
         
         #contact-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 255, 255, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(0, 255, 255, 0.5);
+        }
+        
+        #contact-btn:hover::before {
+            left: 100%;
         }
 
         #scene-container {
@@ -114,17 +121,18 @@
             bottom: clamp(60px, 12vh, 150px);
             left: clamp(15px, 3vw, 50px);
             font-size: clamp(24px, 5vw, 72px);
-            font-weight: bold;
-            opacity: 0.9;
+            font-weight: 800;
+            opacity: 0;
             z-index: 2;
             text-transform: uppercase;
             letter-spacing: clamp(1px, 0.2vw, 2px);
             line-height: 1.2;
-            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
-            transition: all 0.3s ease;
+            text-shadow: 0 0 30px rgba(0, 255, 255, 0.7);
+            transition: all 0.5s ease;
             max-width: 90vw;
             word-wrap: break-word;
             hyphens: auto;
+            animation: fadeInUp 1s ease forwards;
         }
 
         .subtitle {
@@ -132,15 +140,27 @@
             bottom: clamp(15px, 3vh, 50px);
             left: clamp(15px, 3vw, 50px);
             font-size: clamp(14px, 2.5vw, 24px);
-            opacity: 0.7;
+            opacity: 0;
             z-index: 2;
             max-width: 90vw;
             line-height: 1.5;
             letter-spacing: clamp(0.5px, 0.1vw, 1px);
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
-            transition: all 0.3s ease;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            transition: all 0.5s ease;
             word-wrap: break-word;
             hyphens: auto;
+            animation: fadeInUp 1s ease 0.3s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @media (max-width: 1200px) {
@@ -189,7 +209,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.9);
             z-index: 1000;
             opacity: 0;
             transition: opacity 0.3s;
@@ -208,9 +228,10 @@
             background: rgba(15, 15, 20, 0.95);
             border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.3);
             display: flex;
             gap: 30px;
+            border: 1px solid rgba(0, 255, 255, 0.1);
         }
         
         .modal-close {
@@ -225,11 +246,12 @@
             font-size: 24px;
             cursor: pointer;
             opacity: 0.7;
-            transition: opacity 0.3s;
+            transition: all 0.3s ease;
         }
         
         .modal-close:hover {
             opacity: 1;
+            transform: rotate(90deg);
         }
         
         #modal-3d-container {
@@ -237,6 +259,7 @@
             min-height: 300px;
             border-radius: 10px;
             overflow: hidden;
+            border: 1px solid rgba(0, 255, 255, 0.2);
         }
         
         .contact-form-container {
@@ -249,7 +272,9 @@
         .contact-form-container h2 {
             color: white;
             margin: 0;
-            font-size: 24px;
+            font-size: 28px;
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
         }
         
         .form-group {
@@ -258,21 +283,15 @@
             gap: 8px;
         }
         
-        .form-group label {
-            color: white;
-            font-size: 14px;
-            padding-top: 10px;
-        }
-        
         .form-group input,
         .form-group textarea {
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(0, 255, 255, 0.3);
-            border-radius: 8px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 10px;
             color: white;
             font-size: 16px;
-            transition: border-color 0.3s, box-shadow 0.3s;
+            transition: all 0.3s ease;
             margin-top: 1.5%;
         }
         
@@ -280,12 +299,13 @@
         .form-group textarea:focus {
             outline: none;
             border-color: #00ffff;
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
         }
         
         .form-group textarea {
             resize: vertical;
-            min-height: 100px;
+            min-height: 120px;
         }
         
         .submit-btn {
@@ -294,16 +314,17 @@
             background: linear-gradient(135deg, #00ffff, #0088ff);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 600;
             cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
         }
         
         .submit-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 255, 255, 0.4);
         }
         
         @media (max-width: 768px) {
@@ -323,7 +344,6 @@
         <header>
             <div class="logo">Service<span>Kit</span></div>
             <div class="header-buttons">
-                <!-- <a href="messages.html" class="messages-btn">Messages</a> -->
                 <button id="contact-btn">Contact Us</button>
             </div>
         </header>
@@ -343,15 +363,12 @@
                 <h2>Get in Touch</h2>
                 <form id="contact-form">
                     <div class="form-group">
-                        <!-- <label for="name">Name</label> -->
                         <input type="text" placeholder="Name" id="name" name="name" required>
                     </div>
                     <div class="form-group">
-                        <!-- <label for="email">Email</label> -->
                         <input type="email" placeholder="Email" id="email" name="email" required>
                     </div>
                     <div class="form-group">
-                        <!-- <label for="message">Message</label> -->
                         <textarea id="message" placeholder="Message" name="message" required></textarea>
                     </div>
                     <button type="submit" class="submit-btn">Send Message</button>
